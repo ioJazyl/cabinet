@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
-  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -13,10 +12,7 @@ import {
   Input,
   Radio,
   RadioGroup,
-  SlideFade,
-  Spacer,
   Textarea,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 
@@ -51,8 +47,9 @@ function AddNewPatient() {
     dEnter,
     dExit,
     dOperation,
+    observation,
   } = patientInfo;
-  const [isOperated, setIsOperated] = useState("true");
+  const [isOperated, setIsOperated] = useState("false");
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -62,6 +59,7 @@ function AddNewPatient() {
         firstName,
         age,
         diagnostic,
+        observation,
         telephone,
         dEnter,
         dExit,
@@ -82,7 +80,7 @@ function AddNewPatient() {
   }
   return (
     <div className="mr-4">
-      <Heading color="teal.400" mb={5}>
+      <Heading color="teal.400" mb={5} mt={4}>
         Ajouter un patient
       </Heading>
       <form onSubmit={handleSubmit}>
@@ -97,8 +95,14 @@ function AddNewPatient() {
               <Input type="text" name="firstName" onChange={handleChange} />
             </FormControl>
             <FormControl>
+              {/* TODO : change the field age */}
               <FormLabel mt={4}>Age</FormLabel>
-              <Input type="number" name="age" onChange={handleChange} />
+              <Input
+                type="date"
+                name="age"
+                value={age}
+                onChange={handleChange}
+              />
             </FormControl>
           </Box>
 
@@ -110,6 +114,14 @@ function AddNewPatient() {
             <FormControl>
               <FormLabel mt={4}>Diagnostic</FormLabel>
               <Textarea type="text" name="diagnostic" onChange={handleChange} />
+            </FormControl>
+            <FormControl>
+              <FormLabel mt={4}>Observation</FormLabel>
+              <Textarea
+                type="text"
+                name="observation"
+                onChange={handleChange}
+              />
             </FormControl>
             <FormControl>
               <FormLabel mt={4} as="legend">
@@ -133,7 +145,7 @@ function AddNewPatient() {
           <FormControl mt={10}>
             <Flex justifyContent={"space-around"}>
               <Box>
-                <FormLabel>Date Sortie</FormLabel>
+                <FormLabel>Date Opération</FormLabel>
                 <Input
                   type="date"
                   name="dOperation"

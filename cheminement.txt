@@ -5,3 +5,10 @@ Ajouter une image a importer.
 
 
 Planificateur de rdv, et a droite dans l'ecran principal , avoir la liste des patients du lendemain pour voir profils.
+
+TODO :
+
+-quand je rajoute une visite ça doit se faire sans rafraichir
+-fetch in the backend
+-add photos if possible
+-ajouter argent fchaque visite
