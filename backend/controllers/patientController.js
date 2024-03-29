@@ -47,6 +47,23 @@ async function getPatientById(req, res) {
     console.log(error);
   }
 }
+
+async function getPatientByFullName(req, res) {
+  try {
+    const query = req.body.query;
+    const patients = await Patient.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } }, // Case-insensitive regex search for name
+        { firstName: { $regex: query, $options: "i" } }, // Case-insensitive regex search for firstName
+      ],
+    });
+    res.json(patients);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 async function deletePatientById(req, res) {
   const { id } = req.params;
 
@@ -84,4 +101,5 @@ export {
   deletePatientById,
   deletePatientByBody,
   addPatientVisit,
+  getPatientByFullName,
 };

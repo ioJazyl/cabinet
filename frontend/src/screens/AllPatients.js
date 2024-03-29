@@ -4,28 +4,14 @@ import usePatients from "../hooks/usePatients.js";
 import { useEffect, useState } from "react";
 import axios from "axios";
 function AllPatients() {
-  const { patients } = usePatients();
-  const [query, setQuery] = useState("");
+  const { patients, handleQueryChange } = usePatients();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // async function updatePatients() {
-  //   try {
-  //     const response = await axios.get("http://localhost:8000/patients");
-  //     setFilteredPatients(response.data);
-  //   } catch (error) {
-  //     console.error("Error updating patients:", error);
-  //   }
-  // }
-
-  //SEARCH AND PAGINATION in the backend
-
-  // useEffect(() => {
-  //   const updatedFilteredPatients = patients.filter(
-  //     (patient) =>
-  //       patient.firstName.toLowerCase().includes(query.toLowerCase()) ||
-  //       patient.name.toLowerCase().includes(query.toLowerCase()),
-  //   );
-  //   setFilteredPatients(updatedFilteredPatients);
-  // }, [patients, query]);
+  function handleChange(e) {
+    const newQuery = e.target.value;
+    setSearchQuery(newQuery);
+    handleQueryChange(newQuery); // Update the query in the hook
+  }
 
   return (
     <Grid mr={4} gap={4}>
@@ -38,8 +24,8 @@ function AllPatients() {
         <>
           <Input
             placeholder="Rechercher..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            value={searchQuery}
+            onChange={handleChange}
           />
           <SimpleGrid
             spacing={4}

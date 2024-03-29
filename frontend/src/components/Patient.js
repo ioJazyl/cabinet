@@ -32,7 +32,7 @@ function Patient({ patient, onUpdatePatients }) {
       await axios.post("http://localhost:8000/patients/delete", {
         id,
       });
-      onUpdatePatients();
+      onUpdatePatients(); // erreur ici
 
       toast({
         title: "Patient supprimé",
