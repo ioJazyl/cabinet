@@ -1,0 +1,36 @@
+/* CSS for ReactPaginate component */
+.ReactPaginate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.ReactPaginate > * {
+  margin: 0 5px; /* Adjust spacing between paginated items */
+  color: teal; /* Teal color for paginated items */
+  cursor: pointer;
+}
+
+.ReactPaginate > .previous,
+.ReactPaginate > .next {
+  font-weight: bold; /* Make previous and next buttons bold */
+}
+
+.ReactPaginate > .disabled {
+  opacity: 0.5; /* Reduce opacity for disabled items */
+  cursor: not-allowed; /* Change cursor to not-allowed for disabled items */
+}
+
+.ReactPaginate > .break {
+  margin: 0 5px;
+  cursor: default; /* Change cursor to default for break items */
+}
+
+.ReactPaginate > .active {
+  color: white; /* White color for active item */
+  background-color: teal; /* Teal background color for active item */
+  border-radius: 50%; /* Make active item round */
+  padding: 5px 10px; /* Adjust padding for active item */
+}

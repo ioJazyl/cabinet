@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function usePatients() {
+export default function usePatients(page) {
   const [patients, setPatients] = useState([]);
-  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await axios.post("http://localhost:8000/patients/", {
-          query,
-        });
+        const response = await axios.get(
+          `http://localhost:8000/patients?page=${page}`,
+        );
         setPatients(response.data);
       } catch (error) {
         console.error("Error fetching patients:", error);
@@ -18,11 +17,7 @@ export default function usePatients() {
     };
 
     fetchPatients();
-  }, [query]);
+  }, [page]);
 
-  const handleQueryChange = (newQuery) => {
-    setQuery(newQuery);
-  };
-
-  return { patients, handleQueryChange };
+  return { patients };
 }

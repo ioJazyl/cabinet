@@ -28,11 +28,17 @@ async function addPatientVisit(req, res) {
     res.json(`Error : ${error}`);
   }
 }
-
+const PATIENTS_PER_PAGE = 4;
 async function getPatients(req, res) {
+  const page = req.query.page || 0;
   try {
-    const patients = await Patient.find({});
-    res.json(patients);
+    const skip = page * PATIENTS_PER_PAGE;
+    const count = await Patient.countDocuments({});
+
+    const patients = await Patient.find({}).limit(PATIENTS_PER_PAGE).skip(skip);
+    const pageCount = count / PATIENTS_PER_PAGE;
+
+    res.json({ patients, pagination: { page, pageCount } });
   } catch (error) {
     console.log(error);
   }
