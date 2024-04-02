@@ -37,12 +37,20 @@ import { GiMoneyStack } from "react-icons/gi";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+
+import handleReload from "../utils/handleReload.js";
 function PatientInfo() {
   const { id: patientID } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [observation, setObservation] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  console.log(currentPage);
   const [payment, setPayment] = useState(0);
-  const { patientInfo, isLoading, visits } = usePatientById(patientID);
+  const { patientInfo, isLoading, visits, pagination } = usePatientById(
+    patientID,
+    currentPage,
+  );
   const toast = useToast();
   const [allVisits, setAllVisits] = useState([]);
 
@@ -51,10 +59,6 @@ function PatientInfo() {
       setAllVisits(visits);
     }
   }, [visits]);
-
-  async function handleReload() {
-    window.location.reload();
-  }
 
   async function handleSubmitObservation() {
     try {
@@ -110,9 +114,14 @@ function PatientInfo() {
     }
   }
 
+  function handlePageChange({ selected }) {
+    setCurrentPage((s) => selected);
+  }
+
   if (!patientInfo) return <Box>Loading</Box>;
 
   const { name, firstName, age, diagnostic } = patientInfo;
+  console.log(visits);
 
   return (
     <>
@@ -227,6 +236,47 @@ function PatientInfo() {
               </Flex>
             </Stack>
           </CardBody>
+          <ReactPaginate
+            className=" flex justify-center rounded-sm bg-teal-50 py-2 font-semibold"
+            breakLabel="..."
+            nextLabel=">"
+            onPageChange={handlePageChange}
+            pageRangeDisplayed={5}
+            pageCount={Math.ceil(pagination.pageCount)}
+            previousLabel="<"
+            renderOnZeroPageCount={null}
+            forcePage={currentPage} // Controlled currentPage
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              listStyle: "none",
+              padding: 0,
+            }}
+            previousClassName="paginate-item"
+            nextClassName="paginate-item"
+            breakClassName="paginate-item"
+            containerClassName="paginate-container"
+            activeClassName="active"
+            pageClassName="paginate-item"
+          />
+
+          <style>
+            {`
+    .paginate-item {
+      margin: 0 5px;
+      padding: 8px 12px; /* Adjust spacing */
+      border-radius: 10px; /* Rounded shape */
+      color: teal;
+      cursor: pointer;
+    }
+
+    .active {
+      color: white;
+      background-color: teal;
+    }
+  `}
+          </style>
         </Card>
       )}
     </>

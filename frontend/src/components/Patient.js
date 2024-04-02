@@ -23,6 +23,7 @@ import axios from "axios";
 import calcAge from "../utils/calcAge.js";
 import { BsList } from "react-icons/bs";
 import { MdDeleteOutline } from "react-icons/md";
+import handleReload from "../utils/handleReload.js";
 
 function Patient({ patient, onUpdatePatients }) {
   const { name, firstName, age, diagnostic, createdAt, _id: id } = patient;
@@ -35,6 +36,7 @@ function Patient({ patient, onUpdatePatients }) {
       await axios.post("http://localhost:8000/patients/delete", {
         id,
       });
+
       toast({
         title: "Patient supprimé",
         description: "Patient supprimé de la base de donnée",
@@ -43,6 +45,8 @@ function Patient({ patient, onUpdatePatients }) {
         status: "success",
         position: "top",
       });
+
+      handleReload();
     } catch (error) {
       console.log(error);
     }

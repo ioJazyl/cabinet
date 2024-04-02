@@ -28,6 +28,7 @@ function AddNewPatient() {
     dEnter: "",
     dExit: "",
     dOperation: "",
+    payment: 0,
   });
 
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ function AddNewPatient() {
     dExit,
     dOperation,
     observation,
+    payment,
   } = patientInfo;
   const [isOperated, setIsOperated] = useState("false");
   async function handleSubmit(e) {
@@ -65,6 +67,7 @@ function AddNewPatient() {
         telephone,
         dEnter,
         dExit,
+        payment,
       });
 
       toast({
@@ -87,7 +90,7 @@ function AddNewPatient() {
       </Heading>
       <Divider mb={5} />
       <form onSubmit={handleSubmit}>
-        <Flex minW={"max-content"} gap={4}>
+        <Flex minW={"max-content"} gap={2}>
           <Box w={"full"}>
             <FormControl isRequired>
               <FormLabel>Nom</FormLabel>
@@ -121,8 +124,15 @@ function AddNewPatient() {
             <FormControl>
               <FormLabel mt={4}>Observation</FormLabel>
               <Textarea
+                mb={1}
                 type="text"
                 name="observation"
+                onChange={handleChange}
+              />
+              <Input
+                placeholder="payment"
+                type="number"
+                name="payment"
                 onChange={handleChange}
               />
             </FormControl>
@@ -145,7 +155,7 @@ function AddNewPatient() {
           </Box>
         </Flex>
         {isOperated === "true" && (
-          <FormControl mt={10}>
+          <FormControl mt={3}>
             <Flex justifyContent={"space-around"}>
               <Box>
                 <FormLabel>Date Opération</FormLabel>

@@ -11,6 +11,7 @@ const patientSchema = new mongoose.Schema(
     dEnter: { type: String, default: "/" },
     dExit: { type: String, default: "/" },
     dOperation: { type: String, default: "/" },
+    payment: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

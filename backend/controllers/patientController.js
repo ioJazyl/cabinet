@@ -7,8 +7,8 @@ async function addPatient(req, res) {
   // add visit on first patient created
   try {
     const resPatient = await newPatient.save();
-    const { _id: patient, observation } = resPatient;
-    const visit = new Visit({ patient, observation });
+    const { _id: patient, observation, payment } = resPatient;
+    const visit = new Visit({ patient, observation, payment });
     const resVisit = await visit.save();
 
     res.json({ resPatient, resVisit });
@@ -43,12 +43,21 @@ async function getPatients(req, res) {
     console.log(error);
   }
 }
+const VISITS_PER_PAGE = 2;
 async function getPatientById(req, res) {
+  const page = req.query.page || 0;
+
   try {
+    const skip = page * VISITS_PER_PAGE;
+    const count = await Visit.countDocuments({});
     const patient = await Patient.findById(req.params.id);
-    const visit = await Visit.find({ patient: req.params.id });
+    const visit = await Visit.find({ patient: req.params.id })
+      .limit(VISITS_PER_PAGE)
+      .skip(skip);
+    const pageCount = count / VISITS_PER_PAGE;
+
     // TODO : Fetch the visits also
-    res.json({ patient, visit });
+    res.json({ patient, visit, pagination: { page, pageCount } });
   } catch (error) {
     console.log(error);
   }

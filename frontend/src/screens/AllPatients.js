@@ -9,11 +9,9 @@ function AllPatients() {
 
   const { patients: data } = usePatients(currentPage);
   const { patients, pagination } = data;
-  console.log(patients);
   function handlePageChange({ selected }) {
     setCurrentPage((s) => selected);
   }
-  console.log(currentPage);
   return (
     <Grid mr={4} gap={4}>
       <Heading mt={4}>Mes Patients</Heading>
