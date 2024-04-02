@@ -19,9 +19,9 @@ async function addPatient(req, res) {
   }
 }
 async function addPatientVisit(req, res) {
-  const { patient, observation } = req.body;
+  const { patient, observation, payment } = req.body;
   try {
-    const visit = new Visit({ patient, observation });
+    const visit = new Visit({ patient, observation, payment });
     const resVisit = await visit.save();
     res.json(resVisit);
   } catch (error) {

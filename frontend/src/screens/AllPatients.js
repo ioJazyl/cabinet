@@ -38,11 +38,11 @@ function AllPatients() {
             <ReactPaginate
               className=" flex justify-center rounded-sm bg-teal-50 py-2 font-semibold"
               breakLabel="..."
-              nextLabel="next >"
+              nextLabel=">"
               onPageChange={handlePageChange}
               pageRangeDisplayed={5}
-              pageCount={pagination.pageCount}
-              previousLabel="< previous"
+              pageCount={Math.ceil(pagination.pageCount)}
+              previousLabel="<"
               renderOnZeroPageCount={null}
               forcePage={currentPage} // Controlled currentPage
               style={{

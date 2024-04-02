@@ -9,6 +9,5 @@ Planificateur de rdv, et a droite dans l'ecran principal , avoir la liste des pa
 TODO :
 
 -quand je rajoute une visite ça doit se faire sans rafraichir
--fetch in the backend
 -add photos if possible
--ajouter argent fchaque visite
+-possibilité de supprimer une visite

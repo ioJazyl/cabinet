@@ -3,6 +3,8 @@ dotenv.config();
 import express from "express";
 import connectDB from "./config/db.js";
 import patientRoute from "./routes/patientRoutes.js";
+import visitRoute from "./routes/visitRoutes.js";
+
 import cors from "cors";
 const port = process.env.PORT || 2000;
 
@@ -19,5 +21,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/patients", patientRoute);
+app.use("/visits", visitRoute);
 
 app.listen(port, () => console.log(`server running on ${port}`));

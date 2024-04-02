@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -15,6 +16,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
+import { GrFormAdd } from "react-icons/gr";
 
 function AddNewPatient() {
   const [patientInfo, setPatientInfo] = useState({
@@ -83,6 +85,7 @@ function AddNewPatient() {
       <Heading color="teal.400" mb={5} mt={4}>
         Ajouter un patient
       </Heading>
+      <Divider mb={5} />
       <form onSubmit={handleSubmit}>
         <Flex minW={"max-content"} gap={4}>
           <Box w={"full"}>
@@ -175,7 +178,13 @@ function AddNewPatient() {
             </Flex>
           </FormControl>
         )}
-        <Button mt={6} type="submit" w="full">
+        <Button
+          rightIcon={<GrFormAdd />}
+          colorScheme="teal"
+          mt={6}
+          type="submit"
+          w="full"
+        >
           Creer Patient
         </Button>
       </form>

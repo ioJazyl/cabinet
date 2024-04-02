@@ -8,6 +8,7 @@ const visitsSchema = new mongoose.Schema(
       ref: "Patient",
     },
     observation: { type: String },
+    payment: { type: Number },
   },
   { timestamps: true }
 );

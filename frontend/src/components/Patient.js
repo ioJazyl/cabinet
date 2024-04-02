@@ -21,6 +21,9 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import calcAge from "../utils/calcAge.js";
+import { BsList } from "react-icons/bs";
+import { MdDeleteOutline } from "react-icons/md";
+
 function Patient({ patient, onUpdatePatients }) {
   const { name, firstName, age, diagnostic, createdAt, _id: id } = patient;
 
@@ -64,13 +67,18 @@ function Patient({ patient, onUpdatePatients }) {
         </Box>
         <Box display={"grid"} gap={2}>
           <Link to={`/patients/${id}`}>
-            <Button w={"full"} colorScheme="teal">
+            <Button rightIcon={<BsList />} w={"full"} colorScheme="teal">
               Consulter
             </Button>
           </Link>
 
           <>
-            <Button onClick={onOpen} variant={"outline"} colorScheme="red">
+            <Button
+              rightIcon={<MdDeleteOutline />}
+              onClick={onOpen}
+              variant={"outline"}
+              colorScheme="red"
+            >
               Supprimer
             </Button>
 

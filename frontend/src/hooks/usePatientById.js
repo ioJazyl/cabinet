@@ -5,16 +5,27 @@ export default function usePatientById(id) {
   const [patientInfo, setPatientInfo] = useState({});
   const [visits, setVisits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     async function getPatient() {
-      setIsLoading((s) => (s = true));
+      try {
+        setIsLoading(true);
 
-      const patient = await axios(`http://localhost:8000/patients/${id}`);
-      setPatientInfo((p) => (p = patient.data.patient));
-      setVisits((p) => (p = patient.data.visit));
+        const response = await axios.get(
+          `http://localhost:8000/patients/${id}`,
+        );
+        const { patient, visit } = response.data;
 
-      setIsLoading((s) => (s = false));
+        setPatientInfo(patient);
+        setVisits(visit);
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+        // Optionally handle errors here, e.g., set error state
+      } finally {
+        setIsLoading(false);
+      }
     }
+
     getPatient();
   }, [id]);
 
