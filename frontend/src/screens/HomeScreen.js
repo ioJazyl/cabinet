@@ -5,19 +5,24 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Flex,
   Heading,
   Text,
 } from "@chakra-ui/react";
-import usePatients from "../hooks/usePatients";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { GrGroup } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 function HomeScreen() {
-  const { patients } = usePatients();
   return (
-    <>
-      <Box className="mt-4 flex h-screen w-full flex-col items-center justify-center gap-5 ">
-        <Card align="center">
+    <Flex height="100vh" justifyContent="center" alignItems="center">
+      <Box>
+        <Card
+          align="center"
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+          w={"fit-content"}
+          m="auto"
+        >
           <CardHeader>
             <Heading size="md">Bienvenue Mounir !</Heading>
           </CardHeader>
@@ -27,20 +32,24 @@ function HomeScreen() {
             </Text>
           </CardBody>
           <CardFooter display={"flex"} gap={4}>
-            <Button leftIcon={<AiOutlineUserAdd />} colorScheme="teal">
-              Ajouter un patient
-            </Button>
-            <Button
-              leftIcon={<GrGroup />}
-              variant={"outline"}
-              colorScheme="teal"
-            >
-              Voir mes patients
-            </Button>
+            <Link to={"/patients/new"}>
+              <Button leftIcon={<AiOutlineUserAdd />} colorScheme="teal">
+                Ajouter un patient
+              </Button>
+            </Link>
+            <Link to={"/patients"}>
+              <Button
+                leftIcon={<GrGroup />}
+                variant={"outline"}
+                colorScheme="teal"
+              >
+                Voir mes patients
+              </Button>
+            </Link>
           </CardFooter>
         </Card>
       </Box>
-    </>
+    </Flex>
   );
 }
 

@@ -1,60 +1,79 @@
-import { Box, Divider, Flex, HStack, Heading } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { GrGroup } from "react-icons/gr";
 import { BsClipboard } from "react-icons/bs";
 import { AiOutlineUserAdd } from "react-icons/ai";
-
+import { GrUserAdmin } from "react-icons/gr";
 function Header() {
   return (
     <Flex
       flexDirection={"column"}
-      boxShadow={"lg"}
-      minH={"100vh"}
+      boxShadow={"md"}
+      minH={"fit-content"}
       left={0}
       top={0}
       bottom={0}
-      bg={"teal.50"}
+      className="white"
+      bg={"white"}
+      rounded={"lg"}
     >
-      <Box
-        transition="background-color 0.3s"
-        _hover={{ bg: "teal.400", color: "white" }}
-        p={4}
-      >
+      <Box transition="background-color 0.3s">
         <Link to="/">
-          <HStack pl={4}>
-            <BsClipboard />
-            <Heading size={"sm"}>Dashboard</Heading>
-          </HStack>
+          <Button
+            py={8}
+            variant={"ghost"}
+            w={"full"}
+            colorScheme="teal"
+            leftIcon={<BsClipboard />}
+          >
+            Dashboard
+          </Button>
         </Link>
       </Box>
       <Divider />
-      <Box
-        p={4}
-        transition="background-color 0.3s"
-        _hover={{ bg: "teal.400", color: "white" }}
-      >
+      <Box transition="background-color 0.3s">
         <Link to="/patients/new">
-          <HStack pl={4}>
-            <AiOutlineUserAdd />
-            <Heading size={"sm"}>Ajouter un patient</Heading>
-          </HStack>
+          <Button
+            py={8}
+            variant={"ghost"}
+            w={"full"}
+            colorScheme="teal"
+            leftIcon={<AiOutlineUserAdd />}
+          >
+            Ajouter un patient
+          </Button>
         </Link>
       </Box>
       <Divider />
 
-      <Box
-        transition="background-color 0.3s"
-        _hover={{ bg: "teal.400", color: "white" }}
-        p={4}
-      >
+      <Box transition="background-color 0.3s">
         <Link to="/patients">
-          <HStack pl={4}>
-            <GrGroup />
-            <Heading size={"sm"}>Tout mes patiens</Heading>
-          </HStack>
+          <Button
+            py={8}
+            variant={"ghost"}
+            w={"full"}
+            colorScheme="teal"
+            leftIcon={<GrGroup />}
+          >
+            Tout mes patients
+          </Button>
         </Link>
       </Box>
       <Divider />
+
+      <Box transition="background-color 0.3s">
+        <Link to="/admin">
+          <Button
+            py={8}
+            variant={"ghost"}
+            w={"full"}
+            colorScheme="teal"
+            leftIcon={<GrUserAdmin />}
+          >
+            Admin
+          </Button>
+        </Link>
+      </Box>
     </Flex>
   );
 }

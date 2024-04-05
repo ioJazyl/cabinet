@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import {
   Box,
@@ -40,19 +40,25 @@ import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 import handleReload from "../utils/handleReload.js";
+import useVisitsCount from "../hooks/useVisitCount.js";
 function PatientInfo() {
   const { id: patientID } = useParams();
+  const { countPage } = useVisitsCount(patientID);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [observation, setObservation] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  console.log(currentPage);
+  const [allVisits, setAllVisits] = useState([]);
   const [payment, setPayment] = useState(0);
-  const { patientInfo, isLoading, visits, pagination } = usePatientById(
+  const { patientInfo, isLoading, visits } = usePatientById(
     patientID,
     currentPage,
   );
+  const { name, firstName, age, diagnostic } = patientInfo;
+
+  const countPageRef = useRef(countPage);
+
   const toast = useToast();
-  const [allVisits, setAllVisits] = useState([]);
+  // const { pageCount } = pagination;
 
   useEffect(() => {
     if (visits && visits.length > 0) {
@@ -60,12 +66,19 @@ function PatientInfo() {
     }
   }, [visits]);
 
+  useEffect(() => {
+    // Update the ref value whenever countPage changes
+    countPageRef.current = countPage;
+  }, [countPage]);
+
   async function handleSubmitObservation() {
     try {
       await axios.post("http://localhost:8000/patients/new-visit", {
         observation,
         payment,
         patient: patientID,
+        name,
+        firstName,
       });
 
       toast({
@@ -82,6 +95,7 @@ function PatientInfo() {
       console.log(error);
     }
   }
+  //pagination isnt hchanging
 
   async function handleDelete(id) {
     try {
@@ -120,13 +134,10 @@ function PatientInfo() {
 
   if (!patientInfo) return <Box>Loading</Box>;
 
-  const { name, firstName, age, diagnostic } = patientInfo;
-  console.log(visits);
-
   return (
     <>
       {!isLoading && (
-        <Card>
+        <Card pl={4}>
           <CardHeader>
             <Heading size="md">
               Patient: {name} {firstName}
@@ -142,6 +153,7 @@ function PatientInfo() {
                 <Text pt="2" fontSize="md" color={"gray.700"}>
                   {name} {firstName}, {calcAge(age)} ans.
                 </Text>
+                {console.log("fired")}
               </Box>
               <Box>
                 <Heading size="xs" textTransform="uppercase">
@@ -242,7 +254,7 @@ function PatientInfo() {
             nextLabel=">"
             onPageChange={handlePageChange}
             pageRangeDisplayed={5}
-            pageCount={Math.ceil(pagination.pageCount)}
+            pageCount={Math.ceil(countPage)}
             previousLabel="<"
             renderOnZeroPageCount={null}
             forcePage={currentPage} // Controlled currentPage

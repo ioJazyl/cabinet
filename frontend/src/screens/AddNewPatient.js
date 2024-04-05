@@ -84,8 +84,8 @@ function AddNewPatient() {
     }
   }
   return (
-    <div className="mr-4">
-      <Heading color="teal.400" mb={5} mt={4}>
+    <div className="mx-4">
+      <Heading color="teal.500" mb={5} mt={4}>
         Ajouter un patient
       </Heading>
       <Divider mb={5} />
