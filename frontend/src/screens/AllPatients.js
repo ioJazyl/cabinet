@@ -6,8 +6,6 @@ import {
   Box,
   Heading,
   Divider,
-  Flex,
-  Button,
 } from "@chakra-ui/react";
 import Patient from "../components/Patient";
 import usePatients from "../hooks/usePatients.js";
@@ -26,15 +24,22 @@ function AllPatients() {
   }
 
   return (
-    <Grid mr={4} gap={4} pl={4}>
+    <Grid
+      gap={4}
+      px={7}
+      rounded={"lg"}
+      minH={"full"}
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+    >
       <Heading color="teal.500" mt={4}>
-        Mes Patients{" "}
-      </Heading>{" "}
+        Mes Patients
+      </Heading>
       <Input
         placeholder="Rechercher..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
+
       <>
         {patientsPerPage && patientsPerPage.length === 2 ? (
           <Text size="md" fontWeight="semibold" color="gray">

@@ -10,7 +10,7 @@ function App() {
         alignItems={"start"}
         p={4}
         gap={4}
-        className="flex h-screen w-full flex-col items-center justify-center gap-5"
+        className="flex min-h-screen w-full flex-col items-center justify-center gap-5"
         style={{
           position: "relative",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${process.env.PUBLIC_URL}/bgCabinet.jpg)`,

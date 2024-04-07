@@ -9,6 +9,7 @@ import {
   getPatientByFullName,
   getVisitsCount,
   getAllPatients,
+  updatePatientInfo,
 } from "../controllers/patientController.js";
 
 const router = express.Router();
@@ -21,6 +22,8 @@ router.get("/all", getAllPatients);
 
 router.get("/:id", getPatientById);
 router.post("/", getPatientByFullName);
+router.put("/:id/update-patient", updatePatientInfo);
+
 router.delete("/:id", deletePatientById);
 router.post("/delete", deletePatientByBody);
 

@@ -13,6 +13,7 @@ import AddNewPatient from "./screens/AddNewPatient";
 import AllPatients from "./screens/AllPatients";
 import PatientInfo from "./screens/PatientInfo";
 import Admin from "./screens/Admin";
+import EditPatient from "./screens/EditPatient";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,8 @@ const router = createBrowserRouter(
       <Route path="/patients/new" element={<AddNewPatient />} />
       <Route path="/patients" element={<AllPatients />} />
       <Route path="/patients/:id" element={<PatientInfo />} />
+      <Route path="/patients/:id/edit" element={<EditPatient />} />
+
       <Route path="/admin" element={<Admin />} />
     </Route>,
   ),

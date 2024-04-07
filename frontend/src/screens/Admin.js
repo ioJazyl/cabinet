@@ -16,6 +16,7 @@ import {
   TagLabel,
   TagLeftIcon,
   Text,
+  Grid,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import useGetVisits from "../hooks/useAllVisits";
@@ -30,7 +31,7 @@ function Admin() {
   const [password, setPassword] = useState("");
   const [date, setDate] = useState(Date.now()); // Convert JavaScript timestamp to "YYYY-MM-DD" string
   const [currentPage, setCurrentPage] = useState(0);
-
+  console.log(formatDate(date));
   const { visits: data } = useGetVisits(formatDate(date), currentPage);
   const { visits: allVisits, pageCount, visitsAll } = data;
   console.log(allVisits, pageCount);
@@ -44,7 +45,12 @@ function Admin() {
     visitsAll?.reduce((total, visit) => total + visit.payment, 0) || 0;
 
   return (
-    <Box mr={4} pl={4}>
+    <Box
+      px={7}
+      rounded={"lg"}
+      minH={"full"}
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+    >
       <Flex my={4}>
         <IconButton icon={<AiOutlineUser />} />
         <Box ml="3">
@@ -63,9 +69,15 @@ function Admin() {
           placeholder="Inserez Mot de Passe"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
-          style={{ letterSpacing: "0.3em", color: "transparent" }}
+          style={{
+            letterSpacing: "0.1em",
+            color: "transparent",
+            border: "solid 0.5px gray",
+          }}
         />
-        <Button onClick={handleDelete}>Vider</Button>
+        <Button onClick={handleDelete} colorScheme="teal">
+          Vider
+        </Button>
       </form>
       {password === mdp && (
         <Box>
@@ -76,6 +88,8 @@ function Admin() {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                w={1 / 3}
+                border={"0.7px solid gray"}
               />
             </FormControl>
           </form>
@@ -85,7 +99,8 @@ function Admin() {
               py={3}
               px={5}
               rounded={"lg"}
-              bg={"gray.100"}
+              bg={"black"}
+              color={"white"}
             >
               <StatLabel>Gain Journalier</StatLabel>
               <StatNumber>{totalPayment}.DA</StatNumber>
@@ -96,10 +111,13 @@ function Admin() {
                 justifyContent={"space-between"}
                 w={"full"}
                 borderBottom={"1px"}
-                borderColor={"gray.100"}
+                borderColor={"gray.300"}
                 p={4}
               >
-                <Heading size={"sm"}>{visit.name}</Heading>
+                <Grid>
+                  <Heading size={"sm"}>{visit.name}</Heading>
+                  <Text>{visit.observation}</Text>
+                </Grid>
 
                 <Tag size={"lg"} variant="outline" colorScheme="teal">
                   <TagLeftIcon as={GiMoneyStack} />

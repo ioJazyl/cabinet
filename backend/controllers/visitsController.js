@@ -23,6 +23,29 @@ async function deleteVisitById(req, res) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
+
+async function updateVisit(req, res) {
+  try {
+    const { id, observation, payment } = req.body;
+
+    // Find the visit by its ID and update its observation and payment fields
+    const updatedVisit = await Visit.findByIdAndUpdate(
+      id,
+      { observation, payment },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedVisit) {
+      return res.status(404).json({ message: "Visit not found" });
+    }
+
+    return res.status(200).json(updatedVisit);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 const pageSize = 4; // Number of visits per page
 
 async function getVisits(req, res) {
@@ -77,4 +100,4 @@ async function getVisits(req, res) {
   }
 }
 
-export { deleteVisitById, getVisits };
+export { deleteVisitById, getVisits, updateVisit };

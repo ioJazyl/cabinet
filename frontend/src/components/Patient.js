@@ -18,6 +18,7 @@ import {
   Text,
   useDisclosure,
   useToast,
+  Textarea,
 } from "@chakra-ui/react";
 import axios from "axios";
 import calcAge from "../utils/calcAge.js";
@@ -26,7 +27,15 @@ import { MdDeleteOutline } from "react-icons/md";
 import handleReload from "../utils/handleReload.js";
 
 function Patient({ patient, onUpdatePatients }) {
-  const { name, firstName, age, diagnostic, createdAt, _id: id } = patient;
+  const {
+    name,
+    firstName,
+    age,
+    telephone,
+    diagnostic,
+    createdAt,
+    _id: id,
+  } = patient;
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,11 +70,22 @@ function Patient({ patient, onUpdatePatients }) {
         <Text>{calcAge(age)} ans</Text>
       </CardHeader>
       <CardBody>
-        <Text>{diagnostic}</Text>
+        <Heading size={"sm"} mb={1}>
+          Diagnostic
+        </Heading>
+        <Textarea readOnly defaultValue={diagnostic} />
       </CardBody>
+      <Box className="mx-auto w-fit rounded-lg border border-zinc-100 bg-teal-100 p-2 font-bold text-teal-900">
+        Tel: {telephone}
+      </Box>
       <CardFooter gap={3} display={"grid"}>
         <Box borderTop={"1px"} borderColor={"gray.50"} padding={2}>
-          <Text fontSize={"sm"} fontWeight={"semibold"} color={"teal.700"}>
+          <Text
+            fontSize={"sm"}
+            fontWeight={"semibold"}
+            color={"teal.700"}
+            textAlign={"center"}
+          >
             Créer le {formatDate(createdAt)}
           </Text>
         </Box>

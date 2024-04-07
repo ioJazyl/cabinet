@@ -129,6 +129,7 @@ async function deletePatientById(req, res) {
   const patient = await Patient.findById(id);
   if (patient) {
     await Patient.deleteOne({ _id: patient._id });
+    await Visit.deleteMany({ patient: patient._id });
 
     res.json({ message: "Patient Removed" });
   } else {
@@ -153,7 +154,38 @@ async function deletePatientByBody(req, res) {
   }
 }
 
+async function updatePatientInfo(req, res) {
+  const patientId = req.params.id;
+  const updatedFields = req.body;
+
+  try {
+    const patient = await Patient.findById(patientId);
+    const visits = await Visit.find({ patient: patientId });
+
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+
+    // Update patient information with the provided fields
+    Object.assign(patient, updatedFields);
+
+    const updatedPatient = await patient.save();
+
+    // Update associated visits
+    for (let i = 0; i < visits.length; i++) {
+      const visit = visits[i];
+      Object.assign(visit, updatedFields);
+      await visit.save();
+    }
+
+    res.json(updatedPatient);
+  } catch (error) {
+    res.status(500).json({ message: `Error: ${error.message}` });
+  }
+}
+
 export {
+  updatePatientInfo,
   addPatient,
   getPatients,
   getPatientById,

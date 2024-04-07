@@ -67,6 +67,7 @@ function AddNewPatient() {
         telephone,
         dEnter,
         dExit,
+        dOperation,
         payment,
       });
 
@@ -84,7 +85,13 @@ function AddNewPatient() {
     }
   }
   return (
-    <div className="mx-4">
+    <Box
+      h={"full"}
+      px={7}
+      pb={4}
+      rounded={"lg"}
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+    >
       <Heading color="teal.500" mb={5} mt={4}>
         Ajouter un patient
       </Heading>
@@ -94,11 +101,21 @@ function AddNewPatient() {
           <Box w={"full"}>
             <FormControl isRequired>
               <FormLabel>Nom</FormLabel>
-              <Input type="text" name="name" onChange={handleChange} />
+              <Input
+                type="text"
+                name="name"
+                onChange={handleChange}
+                bg={"white"}
+              />
             </FormControl>
             <FormControl isRequired>
               <FormLabel mt={4}>Prénom</FormLabel>
-              <Input type="text" name="firstName" onChange={handleChange} />
+              <Input
+                type="text"
+                name="firstName"
+                onChange={handleChange}
+                bg={"white"}
+              />
             </FormControl>
             <FormControl>
               {/* TODO : change the field age */}
@@ -108,39 +125,14 @@ function AddNewPatient() {
                 name="age"
                 value={age}
                 onChange={handleChange}
-              />
-            </FormControl>
-          </Box>
-
-          <Box w={"full"}>
-            <FormControl>
-              <FormLabel>Telephone</FormLabel>
-              <Input type="number" name="telephone" onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel mt={4}>Diagnostic</FormLabel>
-              <Textarea type="text" name="diagnostic" onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel mt={4}>Observation</FormLabel>
-              <Textarea
-                mb={1}
-                type="text"
-                name="observation"
-                onChange={handleChange}
-              />
-              <Input
-                placeholder="payment"
-                type="number"
-                name="payment"
-                onChange={handleChange}
+                bg={"white"}
               />
             </FormControl>
             <FormControl>
               <FormLabel mt={4} as="legend">
                 Operation EOS
               </FormLabel>
-
+              {console.log(patientInfo.dEnter)}
               <RadioGroup defaultValue={isOperated} onChange={setIsOperated}>
                 <HStack spacing="24px">
                   <Radio value="false" isChecked={isOperated === "false"}>
@@ -152,42 +144,96 @@ function AddNewPatient() {
                 </HStack>
               </RadioGroup>
             </FormControl>
+            {isOperated === "true" && (
+              <FormControl>
+                <Flex
+                  justifyContent={"space-around"}
+                  mt={4}
+                  border={"0.5px solid lightgray"}
+                  rounded={"lg"}
+                  py={2}
+                  px={2}
+                >
+                  <Box>
+                    <FormLabel>Date Opération</FormLabel>
+                    <Input
+                      size={"sm"}
+                      type="date"
+                      name="dOperation"
+                      value={dOperation}
+                      onChange={handleChange}
+                      bg={"white"}
+                    />
+                  </Box>
+                  <Box>
+                    <FormLabel>Date Entrée</FormLabel>
+                    <Input
+                      size={"sm"}
+                      type="date"
+                      name="dEnter"
+                      value={dEnter}
+                      onChange={handleChange}
+                      bg={"white"}
+                    />
+                  </Box>
+
+                  <Box>
+                    <FormLabel>Date Sortie</FormLabel>
+                    <Input
+                      size={"sm"}
+                      type="date"
+                      name="dExit"
+                      value={dExit}
+                      onChange={handleChange}
+                      bg={"white"}
+                    />
+                  </Box>
+                </Flex>
+              </FormControl>
+            )}
+          </Box>
+
+          <Box w={"full"}>
+            <FormControl>
+              <FormLabel>Telephone</FormLabel>
+              <Input
+                type="number"
+                name="telephone"
+                onChange={handleChange}
+                bg={"white"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel mt={4}>Diagnostic</FormLabel>
+              <Textarea
+                type="text"
+                name="diagnostic"
+                onChange={handleChange}
+                bg={"white"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel mt={4}>Observation</FormLabel>
+              <Textarea
+                mb={1}
+                type="text"
+                name="observation"
+                onChange={handleChange}
+                bg={"white"}
+              />
+              <FormLabel mt={4}>Paiement</FormLabel>
+
+              <Input
+                placeholder="payment"
+                type="number"
+                name="payment"
+                onChange={handleChange}
+                bg={"white"}
+              />
+            </FormControl>
           </Box>
         </Flex>
-        {isOperated === "true" && (
-          <FormControl mt={3}>
-            <Flex justifyContent={"space-around"}>
-              <Box>
-                <FormLabel>Date Opération</FormLabel>
-                <Input
-                  type="date"
-                  name="dOperation"
-                  value={dOperation}
-                  onChange={handleChange}
-                />
-              </Box>
-              <Box>
-                <FormLabel>Date Entrée</FormLabel>
-                <Input
-                  type="date"
-                  name="dEnter"
-                  value={dEnter}
-                  onChange={handleChange}
-                />
-              </Box>
 
-              <Box>
-                <FormLabel>Date Sortie</FormLabel>
-                <Input
-                  type="date"
-                  name="dExit"
-                  value={dExit}
-                  onChange={handleChange}
-                />
-              </Box>
-            </Flex>
-          </FormControl>
-        )}
         <Button
           rightIcon={<GrFormAdd />}
           colorScheme="teal"
@@ -198,7 +244,7 @@ function AddNewPatient() {
           Creer Patient
         </Button>
       </form>
-    </div>
+    </Box>
   );
 }
 
