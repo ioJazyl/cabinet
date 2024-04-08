@@ -6,6 +6,8 @@ import {
   Box,
   Heading,
   Divider,
+  Spinner,
+  Flex,
 } from "@chakra-ui/react";
 import Patient from "../components/Patient";
 import usePatients from "../hooks/usePatients.js";
@@ -16,13 +18,27 @@ function AllPatients() {
   const [currentPage, setCurrentPage] = useState(0); // Current page index
 
   const [query, setQuery] = useState("");
-  const { patients: patientsPerPage } = usePatients(currentPage, query);
+  const { patients: patientsPerPage, isLoading } = usePatients(
+    currentPage,
+    query,
+  );
   const { patients, pagination } = patientsPerPage;
 
   function handlePageChange({ selected }) {
     setCurrentPage(selected);
   }
-
+  if (!patients)
+    return (
+      <Flex
+        minH={"full"}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+        rounded={"lg"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Spinner color="teal.500" size={"xl"} />
+      </Flex>
+    );
   return (
     <Grid
       gap={4}
@@ -34,19 +50,25 @@ function AllPatients() {
       <Heading color="teal.500" mt={4}>
         Mes Patients
       </Heading>
-      <Input
-        placeholder="Rechercher..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
 
       <>
-        {patientsPerPage && patientsPerPage.length === 2 ? (
+        {patientsPerPage.patients && patientsPerPage.patients.length === 0 ? (
           <Text size="md" fontWeight="semibold" color="gray">
             Vous avez 0 patients...
+            <Input
+              placeholder="Rechercher..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              bg={"white"}
+            />
           </Text>
         ) : (
           <>
+            <Input
+              placeholder="Rechercher..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
             <SimpleGrid
               spacing={4}
               templateColumns="repeat(auto-fill, minmax(200px, 1fr))"

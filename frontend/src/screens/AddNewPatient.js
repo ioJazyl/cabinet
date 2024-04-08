@@ -33,7 +33,7 @@ function AddNewPatient() {
 
   const navigate = useNavigate();
   const toast = useToast();
-
+  console.log();
   function handleChange(e) {
     setPatientInfo((prev) => ({
       ...prev,
@@ -132,13 +132,20 @@ function AddNewPatient() {
               <FormLabel mt={4} as="legend">
                 Operation EOS
               </FormLabel>
-              {console.log(patientInfo.dEnter)}
               <RadioGroup defaultValue={isOperated} onChange={setIsOperated}>
                 <HStack spacing="24px">
-                  <Radio value="false" isChecked={isOperated === "false"}>
+                  <Radio
+                    value="false"
+                    isChecked={isOperated === "false"}
+                    bg={"white"}
+                  >
                     Non
                   </Radio>
-                  <Radio value="true" isChecked={isOperated === "true"}>
+                  <Radio
+                    value="true"
+                    isChecked={isOperated === "true"}
+                    bg={"white"}
+                  >
                     Oui
                   </Radio>
                 </HStack>
@@ -212,25 +219,32 @@ function AddNewPatient() {
                 bg={"white"}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel mt={4}>Observation</FormLabel>
-              <Textarea
-                mb={1}
-                type="text"
-                name="observation"
-                onChange={handleChange}
-                bg={"white"}
-              />
-              <FormLabel mt={4}>Paiement</FormLabel>
 
-              <Input
-                placeholder="payment"
-                type="number"
-                name="payment"
-                onChange={handleChange}
-                bg={"white"}
-              />
-            </FormControl>
+            <Box border={"2px dashed gray"} rounded={"lg"} p={2} mt={4}>
+              <Heading mb={1} size={"sm"}>
+                1ere Visite
+              </Heading>
+              <Divider mb={2} />
+              <FormControl>
+                <FormLabel>Observation</FormLabel>
+                <Textarea
+                  mb={1}
+                  type="text"
+                  name="observation"
+                  onChange={handleChange}
+                  bg={"white"}
+                />
+                <FormLabel mt={4}>Paiement</FormLabel>
+
+                <Input
+                  placeholder="payment"
+                  type="number"
+                  name="payment"
+                  onChange={handleChange}
+                  bg={"white"}
+                />
+              </FormControl>
+            </Box>
           </Box>
         </Flex>
 

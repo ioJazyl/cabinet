@@ -12,6 +12,7 @@ import {
   Grid,
   FormHelperText,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 
 import React, { useState, useEffect } from "react";
@@ -28,12 +29,15 @@ function EditPatient() {
   const [dOperation, setDoperation] = useState("");
   const [dExit, setDexit] = useState("");
   const [telephone, setTelephone] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const toast = useToast();
   // Add more state variables for other fields if needed
 
   useEffect(() => {
     // Fetch patient's information by ID when component mounts
+    setIsLoading(true);
     axios
       .get(`http://localhost:8000/patients/${patientID}`)
       .then((response) => {
@@ -56,6 +60,7 @@ function EditPatient() {
         setDexit(formatDate(dExit));
         setDoperation(formatDate(dOperation));
         setTelephone(telephone);
+        setIsLoading(false);
 
         // Set other state variables if needed
       })
@@ -63,7 +68,6 @@ function EditPatient() {
         console.error("Error fetching patient information:", error);
       });
   }, [patientID]);
-  console.log(name, firstName, dExit, dEnter, dOperation, telephone, age);
 
   async function handleSave(e) {
     e.preventDefault();
@@ -95,10 +99,25 @@ function EditPatient() {
       console.log(error);
     }
   }
-
-  console.log(dOperation, diagnostic, telephone);
+  if (isLoading)
+    return (
+      <Flex
+        minH={"full"}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+        rounded={"lg"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Spinner color="teal.500" size={"xl"} />
+      </Flex>
+    );
   return (
-    <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }} px={7} py={4}>
+    <Card
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+      px={7}
+      py={4}
+      minH={"full"}
+    >
       <Heading size={"lg"} mb={4}>
         Modification du patient
       </Heading>
@@ -208,7 +227,7 @@ function EditPatient() {
             colorScheme="green"
             w={"full"}
           >
-            Save
+            Modifier
           </Button>
         </Flex>
       </form>

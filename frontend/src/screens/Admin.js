@@ -24,6 +24,7 @@ import formatDate from "../utils/formatDate";
 import { GiMoneyStack } from "react-icons/gi";
 import ReactPaginate from "react-paginate";
 import { AiOutlineUser } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const mdp = "werbrouckroland";
 
@@ -31,10 +32,11 @@ function Admin() {
   const [password, setPassword] = useState("");
   const [date, setDate] = useState(Date.now()); // Convert JavaScript timestamp to "YYYY-MM-DD" string
   const [currentPage, setCurrentPage] = useState(0);
-  console.log(formatDate(date));
-  const { visits: data } = useGetVisits(formatDate(date), currentPage);
+  const { visits: data, monthlyPayment } = useGetVisits(
+    formatDate(date),
+    currentPage,
+  );
   const { visits: allVisits, pageCount, visitsAll } = data;
-  console.log(allVisits, pageCount);
   function handleDelete() {
     setPassword((p) => (p = ""));
   }
@@ -65,6 +67,7 @@ function Admin() {
       </Flex>
       <form className="mb-4 flex w-1/3 gap-2">
         <Input
+          bg={"white"}
           value={password}
           placeholder="Inserez Mot de Passe"
           type="password"
@@ -85,6 +88,7 @@ function Admin() {
             <FormControl>
               <FormLabel>Selectionner une date</FormLabel>
               <Input
+                bg={"white"}
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
@@ -94,37 +98,67 @@ function Admin() {
             </FormControl>
           </form>
           <Flex gap={3} flexDirection={"column"} mt={4}>
-            <Stat
-              w={"fit-content"}
-              py={3}
-              px={5}
-              rounded={"lg"}
-              bg={"black"}
-              color={"white"}
-            >
-              <StatLabel>Gain Journalier</StatLabel>
-              <StatNumber>{totalPayment}.DA</StatNumber>
-              <StatHelpText>{formatDate(date)}</StatHelpText>
-            </Stat>{" "}
-            {allVisits.map((visit) => (
-              <Flex
-                justifyContent={"space-between"}
-                w={"full"}
-                borderBottom={"1px"}
-                borderColor={"gray.300"}
-                p={4}
+            <Box display={"flex"} gap={4}>
+              <Stat
+                w={"fit-content"}
+                py={3}
+                px={5}
+                rounded={"lg"}
+                bg={"black"}
+                color={"white"}
               >
-                <Grid>
-                  <Heading size={"sm"}>{visit.name}</Heading>
-                  <Text>{visit.observation}</Text>
-                </Grid>
+                <StatLabel>Gain Journalier</StatLabel>
+                <StatNumber>{totalPayment}.DA</StatNumber>
+                <StatHelpText>{formatDate(date)}</StatHelpText>
+              </Stat>{" "}
+              <Stat
+                w={"fit-content"}
+                py={3}
+                px={5}
+                rounded={"lg"}
+                bg={"darkorange"}
+                color={"white"}
+              >
+                <StatLabel>Gain Mensuel</StatLabel>
+                <StatNumber>{monthlyPayment}.DA</StatNumber>
+                <StatHelpText>{formatDate(date)}</StatHelpText>
+              </Stat>
+            </Box>
+            <Grid templateColumns="1fr 1fr" gap={4}>
+              {allVisits.map((visit, i) => (
+                <Link to={`/patients/${visit.patient}`} key={visit._id}>
+                  <Flex
+                    justifyContent={"space-between"}
+                    w={"full"}
+                    borderBottom={"1px"}
+                    borderColor={"gray.300"}
+                    py={2}
+                    px={4}
+                    bg={"gray.50"}
+                    rounded={"lg"}
+                  >
+                    <Grid gap={1}>
+                      <Heading size={"sm"}>
+                        {visit.name} {visit.firstName}
+                      </Heading>
+                      <Text
+                        overflow="hidden"
+                        whiteSpace="nowrap"
+                        textOverflow="ellipsis"
+                        maxWidth="17rem"
+                      >
+                        {i + 1} || {visit.observation}
+                      </Text>
+                    </Grid>
 
-                <Tag size={"lg"} variant="outline" colorScheme="teal">
-                  <TagLeftIcon as={GiMoneyStack} />
-                  <TagLabel>{visit.payment}</TagLabel>
-                </Tag>
-              </Flex>
-            ))}
+                    <Tag size={"lg"} variant="solid" colorScheme="gray">
+                      <TagLeftIcon as={GiMoneyStack} />
+                      <TagLabel>{visit.payment}</TagLabel>
+                    </Tag>
+                  </Flex>
+                </Link>
+              ))}
+            </Grid>
           </Flex>
           <ReactPaginate
             className="flex justify-center rounded-lg py-2 text-sm font-semibold "
